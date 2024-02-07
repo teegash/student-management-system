@@ -1,8 +1,10 @@
+import datetime
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 
-from student_management_app.models import CustomUser
+from student_management_app.models import Courses, CustomUser, Staffs, Subjects, Students
 
 
 def admin_home(request):
@@ -28,9 +30,59 @@ def add_staff_save(request):
             messages.success(request,"Successfully Added Staff")
             return HttpResponseRedirect("/add_staff")
         except:
-            messages.success(request,"Failed To Add Staff")
+            messages.error(request,"Failed To Add Staff")
             return HttpResponseRedirect("/add_staff")
             
-             
+def add_course(request):
+    return render(request, "hod_template/add_course_template.html")
+
+def add_course_save(request):
+    if request.method!="POST":
+        return HttpResponseRedirect("Method Not Allowed")
+    else:
+        course=request.POST.get("course")
+        try:
+            course_model=Courses(course_name=course)
+            course_model.save()
+            messages.success(request,"Successfully Added Course")
+            return HttpResponseRedirect("/add_course")
+        except:
+            messages.error(request,"Failed To Add Course")
+            return HttpResponseRedirect("/add_course")
+        
+def add_student(request):
+    courses=Courses.objects.all()
+    return render(request, "hod_template/add_student_template.html", {"courses":courses}) 
+
+def add_student_save(request):
+    if request.method!="POST":
+        return HttpResponse("Method Not Allowed")
+    else:
+        first_name=request.POST.get("first_name")
+        last_name=request.POST.get("last_name")
+        username=request.POST.get("username")
+        email=request.POST.get("email")
+        password=request.POST.get("password")
+        address=request.POST.get("address")
+        session_start=request.POST.get("session_start")
+        session_end=request.POST.get("session_end")
+        course_id=request.POST.get("course")
+        sex=request.POST.get("sex")
+        try:
+            user=CustomUser.objects.create_user(username=username,last_name=last_name,first_name=first_name,password=password,email=email,user_type=3)
+            user.students.address=address
+            course_obj=Courses.objects.get(id=course_id)
+            user.students.course_id=course_obj
+            user.students.session_start_year=session_start
+            user.students.session_end_year=session_end
+            user.students.gender=sex
+            user.students.profile_pic=""
+            user.save()
+            messages.success(request,"Successfully Added Student")
+            return HttpResponseRedirect("/add_student")
+        except:
+            messages.error(request,"Failed To Add Student")
+            return HttpResponseRedirect("/add_student")
+    
              
              
