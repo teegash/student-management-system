@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 
-from student_management_app.forms import AddStudentForm
+from student_management_app.forms import AddStudentForm, EditStudentForm
 from student_management_app.models import Courses, CustomUser, Staffs, Subjects, Students
 
 
@@ -188,16 +188,28 @@ def edit_staff_save(request):
         
         
 def edit_student(request,student_id):
-    courses=Courses.objects.all()
+    request.session['student_id']=student_id
     student=Students.objects.get(admin=student_id)
-    return render(request,"hod_template/edit_student_template.html",{"student":student,"courses":courses,"id":student_id})
+    form=EditStudentForm()
+    form.fields['email'].initial=student.admin.email
+    form.fields['first_name'].initial=student.admin.first_name
+    form.fields['last_name'].initial=student.admin.last_name
+    form.fields['username'].initial=student.admin.username
+    form.fields['address'].initial=student.address
+    form.fields['course'].initial=student.course_id.id
+    form.fields['sex'].initial=student.gender
+    form.fields['session_start'].initial=student.session_start_year
+    form.fields['session_end'].initial=student.session_end_year
+    return render(request,"hod_template/edit_student_template.html",{"form":form,"id":student_id})
     
     
 def edit_student_save(request):
     if request.method!="POST":
         return HttpResponse("<h2>Method Not Allowed</h2>")
     else:
-        student_id=request.POST.get("student_id")
+        student_id=request.session.get("student_id")
+        if student_id == None:
+            return HttpResponseRedirect("/manage_student")
         first_name=request.POST.get("first_name")
         last_name=request.POST.get("last_name")
         username=request.POST.get("username")
