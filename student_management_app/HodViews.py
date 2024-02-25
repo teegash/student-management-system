@@ -3,6 +3,7 @@ import datetime
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.contrib import messages
 
 from student_management_app.forms import AddStudentForm, EditStudentForm
@@ -291,7 +292,7 @@ def edit_subject_save(request):
             subject.course_id=course
             subject.save()
             messages.success(request,"Successfully Edited Subject")
-            return HttpResponseRedirect("/edit_subject/"+subject_id)
+            return HttpResponseRedirect(reverse("edit_subject",subject_id))
         except:
             messages.error(request,"Failed to Edit Subject")
             return HttpResponseRedirect("/edit_subject/"+subject_id)
