@@ -33,10 +33,10 @@ def add_staff_save(request):
             user.staffs.address=address
             user.save()
             messages.success(request,"Successfully Added Staff")
-            return HttpResponseRedirect("/add_staff")
+            return HttpResponseRedirect(reverse("add_staff"))
         except:
             messages.error(request,"Failed To Add Staff")
-            return HttpResponseRedirect("/add_staff")
+            return HttpResponseRedirect(reverse("add_staff"))
         
             
 def add_course(request):
@@ -45,17 +45,17 @@ def add_course(request):
 
 def add_course_save(request):
     if request.method!="POST":
-        return HttpResponseRedirect("Method Not Allowed")
+        return HttpResponse("Method Not Allowed")
     else:
         course=request.POST.get("course")
         try:
             course_model=Courses(course_name=course)
             course_model.save()
             messages.success(request,"Successfully Added Course")
-            return HttpResponseRedirect("/add_course")
+            return HttpResponseRedirect(reverse("add_course"))
         except:
             messages.error(request,"Failed To Add Course")
-            return HttpResponseRedirect("/add_course")
+            return HttpResponseRedirect(reverse("add_course"))
         
         
 def add_student(request):
@@ -97,10 +97,10 @@ def add_student_save(request):
                 user.students.profile_pic=profile_pic_url
                 user.save()
                 messages.success(request,"Successfully Added Student")
-                return HttpResponseRedirect("/add_student")
+                return HttpResponseRedirect(reverse("add_student"))
             except:
                 messages.error(request,"Failed To Add Student")
-                return HttpResponseRedirect("/add_student")
+                return HttpResponseRedirect(reverse("add_student"))
         else:
             form=AddStudentForm(request.POST)
             return render(request, "hod_template/add_student_template.html", {"form":form})
@@ -127,10 +127,10 @@ def add_subject_save(request):
             subject=Subjects(subject_name=subject_name,course_id=course,staff_id=staff)
             subject.save()
             messages.success(request,"Successfully Added Subject")
-            return HttpResponseRedirect("/add_subject")
+            return HttpResponseRedirect(reverse("add_subject"))
         except:
             messages.error(request,"Failed To Add Subject")
-            return HttpResponseRedirect("/add_subject")
+            return HttpResponseRedirect(reverse("add_subject"))
         
         
 def manage_staff(request):
@@ -182,10 +182,10 @@ def edit_staff_save(request):
             staff_model.save()
             
             messages.success(request,"Successfully Edited Staff")
-            return HttpResponseRedirect("/edit_staff/"+staff_id)
+            return HttpResponseRedirect(reverse("edit_staff",kwargs={"staff_id":staff_id}))
         except:
             messages.error(request,"Failed to Edit Staff")
-            return HttpResponseRedirect("/edit_staff/"+staff_id)
+            return HttpResponseRedirect(reverse("edit_staff",kwargs={"staff_id":staff_id}))
         
         
 def edit_student(request,student_id):
@@ -210,7 +210,7 @@ def edit_student_save(request):
     else:
         student_id=request.session.get("student_id")
         if student_id == None:
-            return HttpResponseRedirect("/manage_student")
+            return HttpResponseRedirect(reverse("manage_student"))
         
         
         form=EditStudentForm(request.POST,request.FILES)
@@ -255,10 +255,10 @@ def edit_student_save(request):
                 student.save()
                 del request.session['student_id']
                 messages.success(request,"Successfully Edited Student")
-                return HttpResponseRedirect("/edit_student/"+student_id)
+                return HttpResponseRedirect(reverse("edit_student",kwargs={"student_id":student_id}))
             except:
                 messages.error(request,"Failed to Edit Student")
-                return HttpResponseRedirect("/edit_student/"+student_id)
+                return HttpResponseRedirect(reverse("edit_student",kwargs={"student_id":student_id}))
         else:
             form=EditStudentForm(request.POST)
             student=Students.objects.get(admin=student_id)
@@ -292,10 +292,10 @@ def edit_subject_save(request):
             subject.course_id=course
             subject.save()
             messages.success(request,"Successfully Edited Subject")
-            return HttpResponseRedirect(reverse("edit_subject",subject_id))
+            return HttpResponseRedirect(reverse("edit_subject",kwargs={"subject_id":subject_id}))
         except:
             messages.error(request,"Failed to Edit Subject")
-            return HttpResponseRedirect("/edit_subject/"+subject_id)
+            return HttpResponseRedirect(reverse("edit_subject",kwargs={"subject_id":subject_id}))
         
 
 
@@ -316,10 +316,10 @@ def edit_course_save(request):
             course.course_name=course_name
             course.save()
             messages.success(request,"Successfully Edited Course")
-            return HttpResponseRedirect("/edit_course/"+course_id)
+            return HttpResponseRedirect(reverse("edit_course",kwargs={"course_id":course_id}))
         except:
             messages.error(request,"Failed to Edit Course")
-            return HttpResponseRedirect("/edit_course/"+course_id)
+            return HttpResponseRedirect(reverse("edit_course",kwargs={"course_id":course_id}))
         
         
     
