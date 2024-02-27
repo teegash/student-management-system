@@ -19,13 +19,13 @@ from django.urls import path
 
 from django.conf.urls.static import static
 
-from student_management_app import HodViews, views
+from student_management_app import HodViews, views, StaffViews, StudentViews
 from student_management_system import settings
 
 urlpatterns = [
     path('demo',views.showDemoPage),
     path('admin/', admin.site.urls),
-    path('', views.ShowLoginPage),
+    path('', views.ShowLoginPage,name="show_login"),
     path('get_user_details', views.GetUserDetails),
     path('logout_user', views.logout_user,name="logout"),
     path('doLogin',views.doLogin,name="do_login"),
@@ -50,4 +50,9 @@ urlpatterns = [
     path('edit_subject_save', HodViews.edit_subject_save,name="edit_subject_save"),
     path('edit_course/<str:course_id>', HodViews.edit_course,name="edit_course"),
     path('edit_course_save', HodViews.edit_course_save,name="edit_course_save"),
+    path('manage_session', HodViews.manage_session,name="manage_session"),
+    path('add_session_save', HodViews.add_session_save,name="add_session_save"),
+    # Staff URL Path
+    path('staff_home', StaffViews.staff_home,name="staff_home"),
+    path('student_home', StudentViews.student_home,name="student_home"),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
