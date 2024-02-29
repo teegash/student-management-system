@@ -54,5 +54,8 @@ urlpatterns = [
     path('add_session_save', HodViews.add_session_save,name="add_session_save"),
     # Staff URL Path
     path('staff_home', StaffViews.staff_home,name="staff_home"),
+    path('staff_take_attendance', StaffViews.staff_take_attendance,name="staff_take_attendance"),
+    
+    # Student URL Path
     path('student_home', StudentViews.student_home,name="student_home"),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
