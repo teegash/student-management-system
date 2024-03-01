@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
@@ -20,6 +21,7 @@ def get_students(request):
     subject=Subjects.objects.get(id=subject_id)
     session_model=SessionYearModel.object.get(id=session_year)
     students=Students.objects.filter(course_id=subject.course_id,session_year_id=session_model)
-    return students
+    student_data=serializers.serialize("python",students)
+    return HttpResponse(students)
 
 
