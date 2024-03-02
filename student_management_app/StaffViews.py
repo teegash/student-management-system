@@ -1,6 +1,8 @@
-from django.http import HttpResponse
+import json
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 
 from student_management_app.models import SessionYearModel, Students, Subjects
 
@@ -21,7 +23,13 @@ def get_students(request):
     subject=Subjects.objects.get(id=subject_id)
     session_model=SessionYearModel.object.get(id=session_year)
     students=Students.objects.filter(course_id=subject.course_id,session_year_id=session_model)
-    student_data=serializers.serialize("python",students)
-    return HttpResponse(students)
+    list_data=[]
+    
+    for student in students:
+        data_small={"id":student.admin.id,"name":student.admin.first_name+" "+student.admin.last_name}
+        list_data.append(data_small)
+        
+    return JsonResponse(json.dumps(list_data),content_type="application/json",safe=False)
+    
 
 
