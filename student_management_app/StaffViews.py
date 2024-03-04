@@ -31,5 +31,27 @@ def get_students(request):
         
     return JsonResponse(json.dumps(list_data),content_type="application/json",safe=False)
     
-
+@csrf_exempt
+def save_attendance_data(request):
+    student_ids=request.POST.getlist("student_ids[]")
+    print(student_ids)
+    return HttpResponse("OK")
+    # subject_id=request.POST.get("subject_id")
+    # attendance_date=request.POST.get("attendance_date")
+    # session_year_id=request.POST.get("session_year_id")
+    
+    # subject_model=Subjects.objects.get(id=subject_id)
+    # session_model=SessionYearModel.object.get(id=session_year_id)
+    # json_student=json.loads(student_ids)
+    # print(subject_model)
+    # print(session_model)
+    # print(attendance_date)
+    # print(json_student)
+    
+    # for student_id in json_student:
+    #     student=Students.objects.get(admin=student_id)
+    #     attendance=StudentsAttendance(student_id=student,subject_id=subject_model,attendance_date=attendance_date,session_year_id=session_model)
+    #     attendance.save()
+    
+    # return HttpResponse("OK")
 
