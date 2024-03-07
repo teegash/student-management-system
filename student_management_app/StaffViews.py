@@ -56,5 +56,10 @@ def save_attendance_data(request):
     except:
         return HttpResponse("Error")
     
+def staff_update_attendance(request):
+    subjects=Subjects.objects.filter(staff_id=request.user.id)
+    attendance=Attendance.objects.all()
+    return render(request,"staff_template/staff_update_attendance.html",{"subjects":subjects,"session_years":session_years})
+    
     
 
