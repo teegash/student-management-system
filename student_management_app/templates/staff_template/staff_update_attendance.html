@@ -28,14 +28,15 @@ View Update Attendance
                     </div>
                     <div class="form-group">
                       <label>Session Year </label>
-                      <select class="form-control" name="session_year" id="session_year">
-                        {% for session_year in session_years %}
+                      <select class="form-control" name="session_year_id" id="session_year_id">
+                        {% for session_year in session_year_id %}
                           <option value="{{ session_year.id }}">{{ session_year.session_start_year }} to {{ session_year.session_end_year }}</option>
                         {% endfor %}
                       </select>
                     </div>
-                    
-
+                    <div class="form-group">
+                      <button type="button" class="btn btn-primary btn-block" id="fetch_attendance">Fetch Attendance</button>
+                    </div>                   
                     <div class="form-group">
                       {% if messages %}
                         {% for message in messages %}
