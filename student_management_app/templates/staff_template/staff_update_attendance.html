@@ -158,10 +158,15 @@ View Update Attendance
           data:{subject:subject,session_year_id:session_year},
         })
         .done(function(response){
-          console.log(response)
+          var json_data=JSON.parse(response);
+          var html_data="";
+          for(key in json_data)
+          {
+            html_data+="<option></option>";
+          }
         })
         .fail(function(){
-          alert("Error in Saving Student")
+          alert("Error in Fetching Attendance")
         })
       })
 
