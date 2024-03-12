@@ -73,46 +73,6 @@ View Update Attendance
 {% block custom_js %}
 <script>
     $(document).ready(function(){
-      
-
-        $(document).on("click","#save_attendance",function(){
-          
-          $(this).attr("disabled","disabled")
-          $(this).text("Saving Attendance Data...")
-          var student_data=$("input[name='student_data[]']").map(function(){
-            if($(this).is(":checked")){
-              return {"id":$(this).val(),"status":1};
-            }
-            else{
-              return {"id":$(this).val(),"status":0};
-            }
-          }).get()
-          var attendance_date=$("#attendance_date").val();
-          var subject_id=$("#subject").val();
-          var session_year_id=$("#session_year").val();
-          console.log(student_data)
-          student_data=JSON.stringify(student_data)
-
-          $.ajax({
-              url:'{% url 'save_attendance_data' %}',
-              type:'POST',
-              data:{student_ids:student_data,attendance_date:attendance_date,subject_id:subject_id,session_year_id:session_year_id},
-            })
-            .done(function(response){
-              if(response == "OK"){
-                alert("Attendance Save")
-              }
-              else{
-                alert("Error in Saving Data")
-              }
-              location.reload()
-            })
-            .fail(function(){
-              alert("Error in Saving Student")
-            })
-         
-        })
-      
 
       $("#fetch_attendance").click(function(){
         var subject=$("#subject").val();
@@ -168,7 +128,7 @@ View Update Attendance
           var div_data="<div class='form-group'><label>Student Attendance : </label></div><div class='form-group'><div class='row'>";
           for(key in json_data)
           {
-            div_data+="<div class='col-lg-2'><div class='form-check'><input type='checkbox'";
+            div_data+="<div class='col-lg-3'><div class='form-check'><input type='checkbox'";
             if(json_data[key]['status'])
             {
               div_data+="checked='checked'";
@@ -176,7 +136,17 @@ View Update Attendance
             else{
               div_data+="";
             }
-            div_data+="name='student_data[]' value='"+json_data[key]['id']+"'><label class='form-check-label'>"+json_data[key]['name']+"</label></div></div>";
+            div_data+="name='student_data[]' value='"+json_data[key]['id']+"'><label class='form-check-label'>"+json_data[key]['name']+"</label> ";
+            
+            if(json_data[key]['status'])
+            {
+              div_data+="<b> [ Present ] </b>";
+            }
+            else{
+              div_data+="<b> [ Absent ] </b>";
+            }
+
+            div_data+="</div></div>";
           }
           div_data+="</div></div>";
           div_data+="<div class='form-group'>";
@@ -189,6 +159,42 @@ View Update Attendance
         .fail(function(){
           alert("Error in Fetching Student")
         })
+      })
+
+      $(document).on("click","#save_attendance",function(){
+          
+        $(this).attr("disabled","disabled")
+        $(this).text("Saving Attendance Data...")
+        var student_data=$("input[name='student_data[]']").map(function(){
+          if($(this).is(":checked")){
+            return {"id":$(this).val(),"status":1};
+          }
+          else{
+            return {"id":$(this).val(),"status":0};
+          }
+        }).get()
+        var attendance_date=$("#attendance_date").val();
+        
+        student_data=JSON.stringify(student_data)
+
+        $.ajax({
+            url:'{% url 'save_updateattendance_data' %}',
+            type:'POST',
+            data:{student_ids:student_data,attendance_date:attendance_date},
+          })
+          .done(function(response){
+            if(response == "OK"){
+              alert("Attendance Save")
+            }
+            else{
+              alert("Error in Saving Data")
+            }
+            location.reload()
+          })
+          .fail(function(){
+            alert("Error in Saving Student")
+          })
+       
       })
 
 
