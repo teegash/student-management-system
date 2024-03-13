@@ -106,3 +106,12 @@ def save_updateattendance_data(request):
     except:
         return HttpResponse("Error")
 
+
+def staff_apply_leave(request):
+    staff_obj=Staffs.objects.get(admin=request.user.id)
+    leave_data=LeaveReportStaff.objects.filter(staff_id=staff_obj)
+    return render(request,"staff_template/staff_apply_leave.html",{"leave_data":leave_data})
+
+
+def staff_feedback(request):
+    pass
