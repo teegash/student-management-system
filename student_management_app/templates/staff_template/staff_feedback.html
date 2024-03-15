@@ -15,13 +15,13 @@ Feedback Message
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{% url 'staff_apply_leave_save' %}" method="post">
+                <form action="{% url 'staff_feedback_save' %}" method="post">
                   <div class="card-body">
                                           
                       {% csrf_token %}
                     <div class="form-group">
                       <label>Feedback Message</label>
-                      <textarea class="form-control" rows="6" name="leave_msg"></textarea>
+                      <textarea class="form-control" rows="6" name="feedback_msg"></textarea>
                     </div>
                     
 
@@ -45,7 +45,7 @@ Feedback Message
                   <!-- /.card-body -->
   
                   <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-block" id="fetch_student">Apply for Leave</button>
+                    <button type="submit" class="btn btn-primary btn-block" id="fetch_student">Submit Feedback</button>
                   </div>
                 </form>
               </div>

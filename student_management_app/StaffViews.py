@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from django.contrib import messages
 
-from student_management_app.models import Attendance, AttendanceReport, LeaveReportStaff, SessionYearModel, Staffs, Students, Subjects
+from student_management_app.models import Attendance, AttendanceReport, FeedBackStaff, LeaveReportStaff, SessionYearModel, Staffs, Students, Subjects
 
 
 def staff_home(request):
@@ -116,7 +116,7 @@ def staff_apply_leave(request):
 
 def staff_apply_leave_save(request):
     if request.method!="POST":
-        return HttpResponse("<h2>Method Not Allowed</h2>")
+        return HttpResponseRedirect(reverse("staff_apply_leave"))
     else:
         leave_date=request.POST.get("leave_date")
         leave_msg=request.POST.get("leave_msg")
@@ -133,4 +133,26 @@ def staff_apply_leave_save(request):
 
 
 def staff_feedback(request):
-    return render(request,"staff_template/staff_feedback.html")
+    staff_id=Staffs.objects.get(admin=request.user.id)
+    feedback_data=FeedBackStaff.objects.filter(staff_id=staff_id)
+    return render(request,"staff_template/staff_feedback.html",{"feedback_data":feedback_data})
+
+def staff_feedback_save(request):
+    if request.method!="POST":
+        return HttpResponseRedirect(reverse("staff_feedback_save"))
+    else:
+        feedback_msg=request.POST.get("feedback_msg")
+        
+        staff_obj=Staffs.objects.get(admin=request.user.id)
+        try:
+            feedback=FeedBackStaff(staff_id=staff_obj,feedback=feedback_msg,feedback_reply="")
+            feedback.save()
+            messages.success(request,"Successfully Sent Feedback")
+            return HttpResponseRedirect(reverse("staff_feedback"))
+        except:
+            messages.error(request,"Failed to Send Feedback")
+            return HttpResponseRedirect(reverse("staff_feedback"))
+
+
+
+
