@@ -144,9 +144,9 @@ AUTHENTICATION_BACKENDS=['student_management_app.EmailBackEnd.EmailBackEnd']
 EMAIL_HOST="smtp.gmail.com"
 EMAIL_PORT=587
 EMAIL_HOST_USER="nategadgets@gmail.com"
-EMAIL_HOST_PASSWORD="playerlike12345"
+EMAIL_HOST_PASSWORD="playerlike1A@"
 EMAIL_USE_TLS=True
-DEFAULT_FROM_EMAIL="Student Management System <nategadgets>"
+DEFAULT_FROM_EMAIL="Student Management System <nategadgets@gmail.com>"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
