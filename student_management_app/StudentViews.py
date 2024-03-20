@@ -31,10 +31,11 @@ def student_view_attendance_post(request):
     
     attendance=Attendance.objects.filter(attendance_date__range=(start_date_parse,end_date_parse),subject_id=subject_obj)
     attendance_reports=AttendanceReport.objects.filter(attendance_id__in=attendance,student_id=stud_obj)
+    return render(request,"student_template/student_attendance_data.html",{"attendance_reports":attendance_reports})
     
-    for attendance_report in attendance_reports:
-        print("Date : "+str(attendance_report.attendance_id.attendance_date)," Status : "+str(attendance_report.status))
+    # for attendance_report in attendance_reports:
+    #     print("Date : "+str(attendance_report.attendance_id.attendance_date)," Status : "+str(attendance_report.status))
     
-    return HttpResponse("OK")
+    # return HttpResponse("OK")
 
 
