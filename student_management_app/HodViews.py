@@ -4,6 +4,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 from student_management_app.forms import AddStudentForm, EditStudentForm
@@ -341,5 +342,11 @@ def add_session_save(request):
             return HttpResponseRedirect(reverse("manage_session"))
 
 
-
-
+@csrf_exempt
+def check_email_exist(request):
+    email=request.POST.get("email")
+    user_obj=CustomUser.objects.filter(email=email).exists()
+    if user_obj:
+        return HttpResponse(True)
+    else:
+        return HttpResponse(False)
