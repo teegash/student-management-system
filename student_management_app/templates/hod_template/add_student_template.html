@@ -43,6 +43,14 @@ Add Student
         },
         success: function(response) {
           console.log(response);
+          if(response=="True"){
+            $(".email_error").remove();
+            $("<span class='email_error' style='padding: 5px;color: red;font-weight: bold '>Email not Available</span>").insertAfter("#id_email");
+          }
+          else{
+            $(".email_error").remove();
+            $("<span class='email_error' style='padding: 5px;color: green;font-weight: bold '>Email Available</span>").insertAfter("#id_email");
+          }
         },
         error: function() {
           console.log("Failed");
