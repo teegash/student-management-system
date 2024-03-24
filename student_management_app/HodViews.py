@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 from student_management_app.forms import AddStudentForm, EditStudentForm
-from student_management_app.models import Courses, CustomUser, SessionYearModel, Staffs, Subjects, Students
+from student_management_app.models import Courses, CustomUser, FeedBackStaff, FeedBackStudent, SessionYearModel, Staffs, Subjects, Students
 
 
 def admin_home(request):
@@ -350,3 +350,26 @@ def check_email_exist(request):
         return HttpResponse(True)
     else:
         return HttpResponse(False)
+
+@csrf_exempt
+def check_username_exist(request):
+    username=request.POST.get("username")
+    user_obj=CustomUser.objects.filter(username=username).exists()
+    if user_obj:
+        return HttpResponse(True)
+    else:
+        return HttpResponse(False)
+
+
+def student_feedback_message(request):
+    feedbacks=FeedBackStudent.objects.all()
+    return render(request,"hod_template/student_feedback_template.html",{"feedbacks":feedbacks})
+
+
+def staff_feedback_message(request):
+    feedbacks=FeedBackStaff.objects.all()
+    return render(request,"hod_template/staff_feedback_template.html",{"feedbacks":feedbacks})
+
+
+
+

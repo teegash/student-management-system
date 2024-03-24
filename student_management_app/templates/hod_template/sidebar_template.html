@@ -131,19 +131,11 @@
             </a>
           </li>
 
-          <li class="nav-item">
-            {% url 'add_staff' as add_staff %}
-            <a href="{% url 'add_staff' %}" class="nav-link {% if request.path == add_staff %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                View Attendance
-              </p>
-            </a>
-          </li>
+          
 
           <li class="nav-item">
-            {% url 'add_staff' as add_staff %}
-            <a href="{% url 'add_staff' %}" class="nav-link {% if request.path == add_staff %} active {% endif %}">
+            {% url 'student_feedback_message' as student_feedback_message %}
+            <a href="{% url 'student_feedback_message' %}" class="nav-link {% if request.path == student_feedback_message %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Student Feedback
@@ -152,8 +144,8 @@
           </li>
 
           <li class="nav-item">
-            {% url 'add_staff' as add_staff %}
-            <a href="{% url 'add_staff' %}" class="nav-link {% if request.path == add_staff %} active {% endif %}">
+            {% url 'staff_feedback_message' as staff_feedback_message %}
+            <a href="{% url 'staff_feedback_message' %}" class="nav-link {% if request.path == staff_feedback_message %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Staff Feedback
@@ -177,6 +169,16 @@
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Staff Leave
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            {% url 'add_staff' as add_staff %}
+            <a href="{% url 'add_staff' %}" class="nav-link {% if request.path == add_staff %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                View Attendance
               </p>
             </a>
           </li>

@@ -33,29 +33,67 @@ Add Student
   $(document).ready(function(){
     $("#id_email").keyup(function(){
       var email = $(this).val();
-      var url = "{% url 'check_email_exist' %}"; // Assuming this is the correct URL
+      var url = "{% url 'check_email_exist' %}"; // From url.py
       
-      $.ajax({
-        url: url,
-        type: 'POST',
-        data: {
-          email: email
-        },
-        success: function(response) {
-          console.log(response);
-          if(response=="True"){
-            $(".email_error").remove();
-            $("<span class='email_error' style='padding: 5px;color: red;font-weight: bold '>Email not Available</span>").insertAfter("#id_email");
+      if(email!=""){
+        $.ajax({
+          url: url,
+          type: 'POST',
+          data: {
+            email: email
+          },
+          success: function(response) {
+            console.log(response);
+            if(response=="True"){
+              $(".email_error").remove();
+              $("<span class='email_error' style='padding: 5px;color: red;font-weight: bold '>Email not Available</span>").insertAfter("#id_email");
+            }
+            else{
+              $(".email_error").remove();
+              $("<span class='email_error' style='padding: 5px;color: green;font-weight: bold '>Email Available</span>").insertAfter("#id_email");
+            }
+          },
+          error: function() {
+            console.log("Failed");
           }
-          else{
-            $(".email_error").remove();
-            $("<span class='email_error' style='padding: 5px;color: green;font-weight: bold '>Email Available</span>").insertAfter("#id_email");
+        });
+      }
+      else{
+        $(".email_error").remove();
+      }
+
+    });
+
+    $("#id_username").keyup(function(){
+      var username = $(this).val();
+      var url = "{% url 'check_username_exist' %}"; // From url.py
+      
+      if(username!=""){
+        $.ajax({
+          url: url,
+          type: 'POST',
+          data: {
+            username: username
+          },
+          success: function(response) {
+            console.log(response);
+            if(response=="True"){
+              $(".username_error").remove();
+              $("<span class='username_error' style='padding: 5px;color: red;font-weight: bold '>Username not Available</span>").insertAfter("#id_username");
+            }
+            else{
+              $(".username_error").remove();
+              $("<span class='username_error' style='padding: 5px;color: green;font-weight: bold '>Username Available</span>").insertAfter("#id_username");
+            }
+          },
+          error: function() {
+            console.log("Failed");
           }
-        },
-        error: function() {
-          console.log("Failed");
-        }
-      });
+        });
+      }
+      else{
+        $(".username_error").remove();
+      }
 
     });
 
