@@ -383,7 +383,17 @@ def student_feedback_message_replied(request):
     except:
         return HttpResponse("False")
     
-
-
+@csrf_exempt
+def staff_feedback_message_replied(request):
+    feedback_id=request.POST.get("id")
+    feedback_message=request.POST.get("message")
+    
+    try:
+        feedback=FeedBackStaff.objects.get(id=feedback_id)
+        feedback.feedback_reply=feedback_message
+        feedback.save()
+        return HttpResponse("True")
+    except:
+        return HttpResponse("False")
 
 
