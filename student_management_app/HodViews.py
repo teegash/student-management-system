@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 from student_management_app.forms import AddStudentForm, EditStudentForm
-from student_management_app.models import Courses, CustomUser, FeedBackStaff, FeedBackStudent, SessionYearModel, Staffs, Subjects, Students
+from student_management_app.models import Courses, CustomUser, FeedBackStaff, FeedBackStudent, LeaveReportStaff, LeaveReportStudent, SessionYearModel, Staffs, Subjects, Students
 
 
 def admin_home(request):
@@ -397,3 +397,39 @@ def staff_feedback_message_replied(request):
         return HttpResponse("False")
 
 
+def student_leave_view(request):
+    leaves=LeaveReportStudent.objects.all()
+    return render(request,"hod_template/student_leave_view.html",{"leaves":leaves})
+
+
+def staff_leave_view(request):
+    leaves=LeaveReportStaff.objects.all()
+    return render(request,"hod_template/staff_leave_view.html",{"leaves":leaves})
+
+
+def student_approve_leave(request,leave_id):
+    leave=LeaveReportStudent.objects.get(id=leave_id)
+    leave.leave_status=1
+    leave.save()
+    return HttpResponseRedirect(reverse("student_leave_view"))
+
+
+def student_disapprove_leave(request,leave_id):
+    leave=LeaveReportStudent.objects.get(id=leave_id)
+    leave.leave_status=2
+    leave.save()
+    return HttpResponseRedirect(reverse("student_leave_view"))
+
+
+def staff_approve_leave(request,leave_id):
+    leave=LeaveReportStaff.objects.get(id=leave_id)
+    leave.leave_status=1
+    leave.save()
+    return HttpResponseRedirect(reverse("staff_leave_view"))
+
+
+def staff_disapprove_leave(request,leave_id):
+    leave=LeaveReportStaff.objects.get(id=leave_id)
+    leave.leave_status=2
+    leave.save()
+    return HttpResponseRedirect(reverse("staff_leave_view"))
