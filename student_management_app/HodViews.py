@@ -13,7 +13,12 @@ from student_management_app.models import Attendance, AttendanceReport, Courses,
 
 
 def admin_home(request):
-    return render(request, "hod_template/home_content.html")
+    student_count=Students.objects.all().count()
+    staff_count=Staffs.objects.all().count()
+    subject_count=Subjects.objects.all().count()
+    course_count=Courses.objects.all().count()
+    
+    return render(request, "hod_template/home_content.html",{"student_count":student_count,"staff_count":staff_count,"subject_count":subject_count,"course_count":course_count})
 
 
 def add_staff(request):
