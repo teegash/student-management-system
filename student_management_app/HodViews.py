@@ -18,7 +18,15 @@ def admin_home(request):
     subject_count=Subjects.objects.all().count()
     course_count=Courses.objects.all().count()
     
-    return render(request, "hod_template/home_content.html",{"student_count":student_count,"staff_count":staff_count,"subject_count":subject_count,"course_count":course_count})
+    course_all=Courses.objects.all()
+    course_name_list=[]
+    subject_count_list=[] 
+    for course in course_all:
+        subjects=Subjects.objects.filter(course_id=course.id).count()
+        course_name_list.append(course.course_name)
+        subject_count_list.append(subjects)
+    
+    return render(request, "hod_template/home_content.html",{"student_count":student_count,"staff_count":staff_count,"subject_count":subject_count,"course_count":course_count,"course_name_list":course_name_list,"subject_count_list":subject_count_list})
 
 
 def add_staff(request):
