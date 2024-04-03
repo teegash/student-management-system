@@ -115,12 +115,12 @@ Home
     </div>
 
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-6">
           <!-- BAR CHART -->
           <div class="card card-info">
             <div class="card-header">
-              <h3 class="card-title">Student Attendance Data</h3>
-
+              <h3 class="card-title">Total Students in Each Course</h3>
+  
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                   <i class="fas fa-minus"></i>
@@ -130,10 +130,8 @@ Home
                 </button>
               </div>
             </div>
-            <div class="card-body">
-              <div class="chart">
-                <canvas id="barChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-              </div>
+            <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+              <canvas id="pieChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 315px;" width="630" height="500" class="chartjs-render-monitor"></canvas>
             </div>
             <!-- /.card-body -->
           </div>
@@ -191,7 +189,7 @@ Home
       datasets: [
         {
           data: subject_count_list,
-          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de', '#000000'],
         }
       ]
     }
@@ -205,7 +203,37 @@ Home
       type: 'doughnut',
       data: donutData,
       options: donutOptions
-    })
+    });
+
+    // show total student in each course_count
+
+    var student_count_list_in_course={{ student_count_list_in_course }};
+     
+    var pieData2   = {
+      labels: course_name_list,
+      datasets: [
+        {
+          data: student_count_list_in_course,
+          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de', '#000000'],
+        }
+      ]
+    };
+
+    //-------------
+    //- PIE CHART -
+    //-------------
+    var pieChartCanvas2 = $('#pieChart2').get(0).getContext('2d')
+    var pieOptions2     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie chart
+    new Chart(pieChartCanvas2, {
+      type: 'pie',
+      data: pieData2,
+      options: pieOptions2
+    });
+
     
 
 
