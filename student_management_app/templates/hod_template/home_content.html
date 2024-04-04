@@ -116,7 +116,7 @@ Home
 
     <div class="row">
       <div class="col-lg-6">
-          <!-- BAR CHART -->
+          <!-- PIE CHART -->
           <div class="card card-info">
             <div class="card-header">
               <h3 class="card-title">Total Students in Each Course</h3>
@@ -136,6 +136,28 @@ Home
             <!-- /.card-body -->
           </div>
       </div>
+
+      <div class="col-lg-6">
+        <!-- PIE CHART -->
+        <div class="card card-warning">
+          <div class="card-header">
+            <h3 class="card-title">Total Students in Each Subject</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+            <canvas id="pieChart4" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 315px;" width="630" height="500" class="chartjs-render-monitor"></canvas>
+          </div>
+          <!-- /.card-body -->
+        </div>
+    </div>
     </div>
   </div>
 </section>
@@ -205,7 +227,7 @@ Home
       options: donutOptions
     });
 
-    // show total student in each course_count
+    // show total student in each course
 
     var student_count_list_in_course={{ student_count_list_in_course }};
      
@@ -232,6 +254,37 @@ Home
       type: 'pie',
       data: pieData2,
       options: pieOptions2
+    });
+
+
+    // show total student in each subject
+
+    var student_count_list_in_subject={{ student_count_list_in_subject }};
+    var subject_list={{ subject_list|safe }};
+     
+    var pieData4   = {
+      labels: subject_list,
+      datasets: [
+        {
+          data: student_count_list_in_subject,
+          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de', '#000000', '#AB47BC', '#E65100', '#78909C', '#76FF03', '#FF6F00', '#FFEB3B', '#3D5AFE' ],
+        }
+      ]
+    };
+
+    //-------------
+    //- PIE CHART -
+    //-------------
+    var pieChartCanvas4 = $('#pieChart4').get(0).getContext('2d')
+    var pieOptions4     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie chart
+    new Chart(pieChartCanvas4, {
+      type: 'pie',
+      data: pieData4,
+      options: pieOptions4
     });
 
     

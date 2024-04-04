@@ -29,7 +29,16 @@ def admin_home(request):
         subject_count_list.append(subjects)
         student_count_list_in_course.append(students)
     
-    return render(request, "hod_template/home_content.html",{"student_count":student_count,"staff_count":staff_count,"subject_count":subject_count,"course_count":course_count,"course_name_list":course_name_list,"subject_count_list":subject_count_list,"student_count_list_in_course":student_count_list_in_course})
+    subjects_all=Subjects.objects.all()
+    subject_list=[]
+    student_count_list_in_subject=[]
+    for subject in subjects_all:
+        course=Courses.objects.get(id=subject.course_id.id)
+        student_count_subject=Students.objects.filter(course_id=course.id).count()
+        subject_list.append(subject.subject_name)
+        student_count_list_in_subject.append(student_count_subject)
+    
+    return render(request, "hod_template/home_content.html",{"student_count":student_count,"staff_count":staff_count,"subject_count":subject_count,"course_count":course_count,"course_name_list":course_name_list,"subject_count_list":subject_count_list,"student_count_list_in_course":student_count_list_in_course,"subject_list":subject_list,"student_count_list_in_subject":student_count_list_in_subject})
 
 
 def add_staff(request):
