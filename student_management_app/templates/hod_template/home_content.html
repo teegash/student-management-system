@@ -159,6 +159,59 @@ Home
         </div>
     </div>
     </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+         <!-- BAR CHART -->
+         <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Staff Leave vs Attendance</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart">
+              <canvas id="barChart1" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+         <!-- BAR CHART -->
+         <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Student Leave vs Attendance</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart">
+              <canvas id="barChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
     <!-- /.content -->
@@ -287,7 +340,121 @@ Home
       options: pieOptions4
     });
 
-    
+
+    //--------------
+    //- AREA CHART Data-
+    //--------------
+
+    var attendance_present_list_staff= {{ attendance_present_list_staff }};
+    var attendance_absent_list_staff= {{ attendance_absent_list_staff }};
+    var staff_name_list= {{ staff_name_list|safe }}
+    var barChartData = {
+      labels  : staff_name_list,
+      datasets: [
+        {
+          label               : 'Leave',
+          backgroundColor     : 'rgba(60,141,188,0.9)',
+          borderColor         : 'rgba(60,141,188,0.8)',
+          pointRadius          : false,
+          pointColor          : '#3b8bba',
+          pointStrokeColor    : 'rgba(60,141,188,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(60,141,188,1)',
+          data                : attendance_absent_list_staff
+        },
+        {
+          label               : 'Attendance',
+          backgroundColor     : 'rgba(210, 214, 222, 1)',
+          borderColor         : 'rgba(210, 214, 222, 1)',
+          pointRadius         : false,
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : attendance_present_list_staff
+        },
+      ]
+    };
+
+
+    //-------------
+    //- BAR CHART - Staff leave vs Attendance
+    //-------------
+    var barChartCanvas = $('#barChart1').get(0).getContext('2d')
+    var temp0 = barChartData.datasets[0]
+    var temp1 = barChartData.datasets[1]
+    barChartData.datasets[0] = temp1
+    barChartData.datasets[1] = temp0
+
+    var barChartOptions = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      datasetFill             : false
+    }
+
+    new Chart(barChartCanvas, {
+      type: 'bar',
+      data: barChartData,
+      options: barChartOptions
+    });
+
+
+    //--------------
+    //- AREA CHART Data-
+    //--------------
+
+    var attendance_present_list_student= {{ attendance_present_list_student }};
+    var attendance_absent_list_student= {{ attendance_absent_list_student }};
+    var student_name_list= {{ student_name_list|safe }}
+    var barChartData2 = {
+      labels  : student_name_list,
+      datasets: [
+        {
+          label               : 'Leave',
+          backgroundColor     : 'rgba(60,141,188,0.9)',
+          borderColor         : 'rgba(60,141,188,0.8)',
+          pointRadius          : false,
+          pointColor          : '#3b8bba',
+          pointStrokeColor    : 'rgba(60,141,188,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(60,141,188,1)',
+          data                : attendance_absent_list_student
+        },
+        {
+          label               : 'Attendance',
+          backgroundColor     : 'rgba(210, 214, 222, 1)',
+          borderColor         : 'rgba(210, 214, 222, 1)',
+          pointRadius         : false,
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : attendance_present_list_student
+        },
+      ]
+    };
+
+
+    //-------------
+    //- BAR CHART - Student leave vs Attendance
+    //-------------
+    var barChartCanvas2 = $('#barChart2').get(0).getContext('2d')
+    var temp02 = barChartData2.datasets[0]
+    var temp12 = barChartData2.datasets[1]
+    barChartData2.datasets[0] = temp12
+    barChartData2.datasets[1] = temp02
+
+    var barChartOptions2 = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      datasetFill             : false
+    }
+
+    new Chart(barChartCanvas2, {
+      type: 'bar',
+      data: barChartData2,
+      options: barChartOptions2
+    });
 
 
   });
